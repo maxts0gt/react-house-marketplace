@@ -5,8 +5,8 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-
-import { db } from 'firebase/config';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase.config';
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
 
@@ -43,6 +43,13 @@ function SignUp() {
       updateProfile(auth.currentUser, {
         displayName: name,
       });
+
+      const formDataCopy = { ...formData };
+      // console.log(formDataCopy);
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, 'users', user.uid), formDataCopy);
 
       navigate('/');
     } catch (error) {
@@ -105,6 +112,7 @@ function SignUp() {
           </div>
         </form>
 
+        {/* Google Auth */}
         <Link to="/sign-in" className="registerLink">
           Sign In Instead
         </Link>
