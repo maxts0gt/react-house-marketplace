@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
+
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
 
@@ -31,6 +32,7 @@ function SignUp() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const auth = getAuth();
 
@@ -39,6 +41,7 @@ function SignUp() {
         email,
         password
       );
+
       const user = userCredential.user;
 
       updateProfile(auth.currentUser, {
@@ -46,7 +49,6 @@ function SignUp() {
       });
 
       const formDataCopy = { ...formData };
-      // console.log(formDataCopy);
       delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
 
@@ -54,7 +56,7 @@ function SignUp() {
 
       navigate('/');
     } catch (error) {
-      toast.error('Something went wrong with registration.');
+      toast.error('Something went wrong with registration');
     }
   };
 
@@ -113,7 +115,6 @@ function SignUp() {
           </div>
         </form>
 
-        {/* Google Auth */}
         <Link to="/sign-in" className="registerLink">
           Sign In Instead
         </Link>

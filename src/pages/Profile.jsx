@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-
-import { getAuth, updateProfile } from 'firebase/auth';
+import { getAuth, updateProfile, onAuthStateChanged } from 'firebase/auth';
 import { updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,6 @@ import { toast } from 'react-toastify';
 
 function Profile() {
   const auth = getAuth();
-
   const [changeDetails, setChangeDetails] = useState(false);
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
