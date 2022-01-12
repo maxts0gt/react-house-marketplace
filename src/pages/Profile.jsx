@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
+
 import { getAuth, updateProfile } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { db } from '../firebase.config';
 import { updateDoc, doc } from 'firebase/firestore';
+import { db } from '../firebase.config';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function Profile() {
   const auth = getAuth();
-  console.log(auth.currentUser);
+
   const [changeDetails, setChangeDetails] = useState(false);
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
@@ -15,6 +16,7 @@ function Profile() {
   });
 
   const { name, email } = formData;
+
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -25,7 +27,7 @@ function Profile() {
   const onSubmit = async () => {
     try {
       if (auth.currentUser.displayName !== name) {
-        // update display name in fb
+        // Update display name in fb
         await updateProfile(auth.currentUser, {
           displayName: name,
         });
@@ -37,6 +39,7 @@ function Profile() {
         });
       }
     } catch (error) {
+      console.log(error);
       toast.error('Could not update profile details');
     }
   };
@@ -52,12 +55,13 @@ function Profile() {
     <div className="profile">
       <header className="profileHeader">
         <p className="pageHeader">My Profile</p>
-        <button className="logOut" type="button" onClick={onLogout}>
+        <button type="button" className="logOut" onClick={onLogout}>
           Logout
         </button>
       </header>
+
       <main>
-        <div className="profileDetails">
+        <div className="profileDetailsHeader">
           <p className="profileDetailsText">Personal Details</p>
           <p
             className="changePersonalDetails"
@@ -69,6 +73,7 @@ function Profile() {
             {changeDetails ? 'done' : 'change'}
           </p>
         </div>
+
         <div className="profileCard">
           <form>
             <input
