@@ -8,10 +8,9 @@ import {
 } from 'firebase/auth';
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
-
+import OAuth from '../components/OAuth';
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
-import OAuth from '../components/OAuth';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +49,7 @@ function SignUp() {
       });
 
       const formDataCopy = { ...formData };
-      // delete formDataCopy.password;
+      delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
 
       await setDoc(doc(db, 'users', user.uid), formDataCopy);
@@ -115,7 +114,9 @@ function SignUp() {
             </button>
           </div>
         </form>
+
         <OAuth />
+
         <Link to="/sign-in" className="registerLink">
           Sign In Instead
         </Link>
