@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Slider from '../components/Slider';
 import rentCategoryImage from '../assets/jpg/rentCategoryImage.jpg';
 import sellCategoryImage from '../assets/jpg/sellCategoryImage.jpg';
 
@@ -8,26 +9,29 @@ function Explore() {
       <header>
         <p className="pageHeader"></p>
       </header>
-      <main>{/* Slider */}</main>
-      <p className="exploreGategoryHeading">Categories</p>
-      <div className="exploreCategories">
-        <Link to="/category/rent">
-          <img
-            src={rentCategoryImage}
-            alt="rent"
-            className="exploreCategoryImg"
-          />
-          <p className="exploreCategoryName">Places for rent</p>
-        </Link>
-        <Link to="/category/sale">
-          <img
-            src={sellCategoryImage}
-            alt="sell"
-            className="exploreCategoryImg"
-          />
-          <p className="exploreCategoryName">Places for sale</p>
-        </Link>
-      </div>
+      <main>
+        <Slider />
+
+        <p className="exploreGategoryHeading">Categories</p>
+        <div className="exploreCategories">
+          <Link to="/category/rent">
+            <img
+              src={rentCategoryImage}
+              alt="rent"
+              className="exploreCategoryImg"
+            />
+            <p className="exploreCategoryName">Places for rent</p>
+          </Link>
+          <Link to="/category/sale">
+            <img
+              src={sellCategoryImage}
+              alt="sell"
+              className="exploreCategoryImg"
+            />
+            <p className="exploreCategoryName">Places for sale</p>
+          </Link>
+        </div>
+      </main>
     </div>
   );
 }
