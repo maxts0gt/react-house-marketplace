@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getAuth, updateProfile } from 'firebase/auth';
 import {
   updateDoc,
@@ -11,7 +12,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase.config';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ListingItem from '../components/ListingItem';
 import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg';
@@ -34,6 +35,7 @@ function Profile() {
   useEffect(() => {
     const fetchUserListings = async () => {
       const listingsRef = collection(db, 'listings');
+
       const q = query(
         listingsRef,
         where('userRef', '==', auth.currentUser.uid),
@@ -101,6 +103,8 @@ function Profile() {
     }
   };
 
+  const onEdit = (listingId) => navigate(`/edit-listing/${listingId}`);
+
   return (
     <div className="profile">
       <header className="profileHeader">
@@ -144,14 +148,16 @@ function Profile() {
             />
           </form>
         </div>
+
         <Link to="/create-listing" className="createListing">
           <img src={homeIcon} alt="home" />
           <p>Sell or rent your home</p>
           <img src={arrowRight} alt="arrow right" />
         </Link>
+
         {!loading && listings?.length > 0 && (
           <>
-            <p className="listText">Your Listings</p>
+            <p className="listingText">Your Listings</p>
             <ul className="listingsList">
               {listings.map((listing) => (
                 <ListingItem
@@ -159,6 +165,7 @@ function Profile() {
                   listing={listing.data}
                   id={listing.id}
                   onDelete={() => onDelete(listing.id)}
+                  onEdit={() => onEdit(listing.id)}
                 />
               ))}
             </ul>
